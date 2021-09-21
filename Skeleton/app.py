@@ -22,7 +22,9 @@ Initial Webpage where gameboard is initialized
 
 @app.route('/', methods=['GET'])
 def player1_connect():
-    pass
+    global game
+    game = Gameboard()
+    return render_template('player1_connect.html', status='Pick a Color.')
 
 
 '''
@@ -49,7 +51,10 @@ Assign player1 their color
 
 @app.route('/p1Color', methods=['GET'])
 def player1_config():
-    pass
+    color = request.args.get('color')
+    game.player1 = color
+    print('player1 is', color)
+    return render_template('player1_connect.html', status=color)
 
 
 '''
@@ -64,7 +69,16 @@ Assign player2 their color
 
 @app.route('/p2Join', methods=['GET'])
 def p2Join():
-    pass
+    if game is None:
+        return "Game not found", 404
+    if game.player1.lower() == 'yellow':
+        game.player2 = 'red' 
+    elif game.player1.lower() == 'red':
+        game.player2 = 'yellow' 
+    else:
+        return "player1 has not chosen a color", 502
+    print('player2 is', game.player2)
+    return render_template('p2Join.html', status=game.player2)
 
 
 '''
@@ -81,7 +95,22 @@ Process Player 1's move
 
 @app.route('/move1', methods=['POST'])
 def p1_move():
-    pass
+    column = request.json['column']
+    column = int(column[3:])
+    valid, reason = game.move(1, column)
+    if not valid:
+        return jsonify(
+            move=game.board, 
+            invalid=True, 
+            reason=reason,
+            winner=game.game_result
+            )
+    else:
+        return jsonify(
+            move=game.board, 
+            invalid=False, 
+            winner=game.game_result
+            )
 
 '''
 Same as '/move1' but instead proccess Player 2
@@ -90,7 +119,23 @@ Same as '/move1' but instead proccess Player 2
 
 @app.route('/move2', methods=['POST'])
 def p2_move():
-    pass
+    column = request.json['column']
+    column = int(column[3:])
+    valid, reason = game.move(2, column)
+    if not valid:
+        return jsonify(
+            move=game.board, 
+            invalid=True, 
+            reason=reason,
+            winner=game.game_result
+            )
+    else:
+        return jsonify(
+            move=game.board, 
+            invalid=False, 
+            winner=game.game_result
+            )
+
 
 
 
