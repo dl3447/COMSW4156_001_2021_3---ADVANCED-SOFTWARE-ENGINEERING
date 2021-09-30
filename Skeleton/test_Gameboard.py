@@ -113,6 +113,7 @@ class Test_TestGameboard(unittest.TestCase):
             gameboard.move(2, 5)
         self.assertEqual(gameboard.move(2, 3),
                          (False, 'The board is full'))
+        self.assertEqual(gameboard.game_result, 'draw')
 
     def test_check_winner_vertial(self):
         gameboard = Gameboard()
@@ -171,5 +172,21 @@ class Test_TestGameboard(unittest.TestCase):
         gameboard.player1 = 2
         gameboard.player2 = 1
         gameboard.game_result = ""
+        gameboard.check_winner()
+        self.assertEqual(gameboard.game_result, 'p2')
+
+    def test_check_winner_have_winner(self):
+        gameboard = Gameboard()
+        gameboard.player1 = 1
+        gameboard.player2 = 2
+        gameboard.board = [
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 1, 2],
+            [0, 0, 0, 0, 1, 2, 2],
+            [0, 1, 1, 1, 2, 2, 2],
+        ]
+        gameboard.game_result = 'p2'
         gameboard.check_winner()
         self.assertEqual(gameboard.game_result, 'p2')
