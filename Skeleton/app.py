@@ -1,12 +1,10 @@
-from flask import Flask, render_template, request, redirect, jsonify
-from json import dump
+from flask import Flask, render_template, request, jsonify
 from Gameboard import Gameboard
-import db
+import logging
 
 
 app = Flask(__name__)
 
-import logging
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
@@ -72,9 +70,9 @@ def p2Join():
     if game is None:
         return "Game not found", 404
     if game.player1.lower() == 'yellow':
-        game.player2 = 'red' 
+        game.player2 = 'red'
     elif game.player1.lower() == 'red':
-        game.player2 = 'yellow' 
+        game.player2 = 'yellow'
     else:
         return "player1 has not chosen a color", 502
     print('player2 is', game.player2)
@@ -100,17 +98,18 @@ def p1_move():
     valid, reason = game.move(1, column)
     if not valid:
         return jsonify(
-            move=game.board, 
-            invalid=True, 
+            move=game.board,
+            invalid=True,
             reason=reason,
             winner=game.game_result
             )
     else:
         return jsonify(
-            move=game.board, 
-            invalid=False, 
+            move=game.board,
+            invalid=False,
             winner=game.game_result
             )
+
 
 '''
 Same as '/move1' but instead proccess Player 2
@@ -124,19 +123,17 @@ def p2_move():
     valid, reason = game.move(2, column)
     if not valid:
         return jsonify(
-            move=game.board, 
-            invalid=True, 
+            move=game.board,
+            invalid=True,
             reason=reason,
             winner=game.game_result
             )
     else:
         return jsonify(
-            move=game.board, 
-            invalid=False, 
+            move=game.board,
+            invalid=False,
             winner=game.game_result
             )
-
-
 
 
 if __name__ == '__main__':
