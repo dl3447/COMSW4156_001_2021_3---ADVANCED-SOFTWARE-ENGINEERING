@@ -24,8 +24,8 @@ class Gameboard():
                 self.board[i][column] = self.player1 \
                     if player == 1 else self.player2
                 self.current_turn = 'p2' if self.current_turn == 'p1' else 'p1'
-                self.check_winner()
                 self.remaining_moves -= 1
+                self.check_winner()
                 return (True, '')
         # if full, return False
         return (False, 'This column is full')
@@ -63,6 +63,8 @@ class Gameboard():
                     self.game_result = 'p1' \
                         if self.board[i][j] == self.player1 else 'p2'
                     return
+        if self.remaining_moves == 0:
+            self.game_result = 'draw'
 
 
 '''
