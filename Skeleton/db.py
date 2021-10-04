@@ -32,7 +32,27 @@ Insert Tuple into table
 
 
 def add_move(move):  # will take in a tuple
-    pass
+    current_turn, board, winner, player1, player2, remaining_moves = move
+    try:
+        conn = sqlite3.connect('sqlite_db')
+        expression = f"""
+        INSERT INTO GAME VALUES
+        ('{current_turn}',
+        "{board}",
+        '{winner}',
+        '{player1}',
+        '{player2}',
+        '{remaining_moves}')
+        """
+        conn.execute(expression)
+        conn.commit()
+        conn.close()
+    except Error as e:
+        print(e)
+
+    finally:
+        if conn:
+            conn.close()
 
 
 '''
@@ -44,7 +64,25 @@ return (current_turn, board, winner, player1, player2, remaining_moves)
 def getMove():
     # will return tuple(current_turn, board, winner, player1, player2,
     # remaining_moves) or None if db fails
-    pass
+    try:
+        conn = sqlite3.connect('sqlite_db')
+        move = conn.execute("SELECT * FROM GAME")
+        move = move.fetchall()
+        if not move:
+            return None
+        move = move[-1]
+        current_turn, board, winner, player1, player2, remaining_moves = move
+        board = eval(board)
+        conn.commit()
+        conn.close()
+        return (current_turn, board, winner, player1, player2, remaining_moves)
+    except Error as e:
+        print(e)
+
+    finally:
+        if conn:
+            conn.close()
+    return None
 
 
 '''
