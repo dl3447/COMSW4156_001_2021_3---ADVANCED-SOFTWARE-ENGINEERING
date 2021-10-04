@@ -8,3 +8,7 @@ https://drive.google.com/file/d/1eDfjpWGxerunsnynmLIZuyEW_yAFLmH4/view?usp=shari
 ## Video for assignment 2
 
 https://drive.google.com/file/d/1hY7o6dHfTwxxDRN6vVy961MYYb9owWJv/view?usp=sharing
+
+## Video for assignment 3
+
+https://drive.google.com/file/d/1X3o0SjtpGozFQglxf16W7hVTTXmMyr78/view?usp=sharing
