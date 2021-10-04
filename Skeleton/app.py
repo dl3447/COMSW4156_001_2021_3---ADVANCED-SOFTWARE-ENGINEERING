@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from Gameboard import Gameboard
 import logging
+import db
 
 
 app = Flask(__name__)
@@ -8,7 +9,18 @@ app = Flask(__name__)
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
-game = None
+db.init_db()
+move = db.getMove()
+if move is None:
+    game = None
+else:
+    game = Gameboard()
+    game.current_turn, \
+        game.board, \
+        game.game_result, \
+        game.player1, \
+        game.player2, \
+        game.remaining_moves = move
 
 '''
 Implement '/' endpoint
