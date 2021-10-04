@@ -1,3 +1,4 @@
+import db
 
 
 class Gameboard():
@@ -26,6 +27,14 @@ class Gameboard():
                 self.current_turn = 'p2' if self.current_turn == 'p1' else 'p1'
                 self.remaining_moves -= 1
                 self.check_winner()
+                db.add_move((
+                    self.current_turn,
+                    self.board,
+                    self.game_result,
+                    self.player1,
+                    self.player2,
+                    self.remaining_moves
+                ))
                 return (True, '')
         # if full, return False
         return (False, 'This column is full')
