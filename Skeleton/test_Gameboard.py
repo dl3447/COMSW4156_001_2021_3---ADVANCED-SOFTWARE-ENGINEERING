@@ -2,7 +2,7 @@ import unittest
 from Gameboard import Gameboard
 
 
-class Test_TestGameboard(unittest.TestCase):
+class Test_Gameboard(unittest.TestCase):
     def test_gameboard_init(self):
         gameboard = Gameboard()
         self.assertEqual(gameboard.player1, "")
